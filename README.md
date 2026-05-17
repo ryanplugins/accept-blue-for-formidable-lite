@@ -13,7 +13,7 @@
 
 This plugin integrates the **accept.blue payment gateway** directly into **Formidable Forms**, letting you securely accept online payments inside any WordPress form. It is ideal for donation forms, checkout forms, invoice payments, membership sign-ups, and subscription billing — all powered by accept.blue's PCI-compliant hosted tokenization infrastructure.
 
-**This is the free Lite version.** Recurring billing, refunds, webhooks, fraud protection, and the admin transactions panel are available in [Pro](https://ryanplugins.net/product/formidable-accept-blue-payment-gateway/).
+**This is the free Lite version.** Recurring billing, refunds, webhooks, fraud protection, and the admin transactions panel are available in [Pro](https://www.patreon.com/posts/formidable-blue-157799373?source=github).
 
 ---
 
@@ -89,7 +89,7 @@ This plugin integrates the **accept.blue payment gateway** directly into **Formi
 | Fraud Shield (IP / email / country) | — | ✅ |
 | Per-Form API Credential Override | — | ✅ |
 
-[**Upgrade to Pro →**](https://ryanplugins.net/product/formidable-accept-blue-payment-gateway/)
+[**Upgrade to Pro →**](https://www.patreon.com/posts/formidable-blue-157799373?source=github)
 
 ---
 
@@ -97,7 +97,7 @@ This plugin integrates the **accept.blue payment gateway** directly into **Formi
 
 > **How to integrate accept.blue with Formidable Forms in WordPress**
 
-1. Download the plugin zip from the [Releases](https://github.com/ryanplugins/formidable-acceptblue-lite/releases) page.
+1. Download the plugin zip from the [Releases](https://github.com/ryanplugins/accept-blue-for-formidable-payment-gateway-lite/releases) page.
 2. In your WordPress admin go to **Plugins → Add New → Upload Plugin**.
 3. Upload the zip file and click **Install Now**, then **Activate Plugin**.
 4. Open **Formidable → Global Settings → accept.blue**.
@@ -173,7 +173,7 @@ No card data is stored on your server. All sensitive payment data is handled exc
 ## FAQ
 
 **Does this support ACH payments?**  
-ACH / eCheck transactions are available in the [Pro version](https://ryanplugins.net/product/formidable-accept-blue-payment-gateway/).
+ACH / eCheck transactions are available in the [Pro version](https://www.patreon.com/posts/formidable-blue-157799373?source=github).
 
 **Does this support recurring billing?**  
 Yes — subscriptions and recurring payments (daily, weekly, monthly, annual and more) are supported in Pro.
