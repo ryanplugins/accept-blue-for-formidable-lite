@@ -56,7 +56,6 @@ class Frm_AB_Lite_Form_Action extends FrmFormAction {
 			'billing_country', 'billing_phone',
 			'li_sku', 'li_description', 'li_quantity', 'li_cost_type',
 			'li_cost_field', 'li_qty_type',
-			'recurring_frequency', 'recurring_title', 'trial_period_type', 'schedule_type',
 		);
 		// API credential fields — use wp_strip_all_tags (not sanitize_text_field)
 		// to preserve base64 chars (+, /, =) and other non-HTML characters that
@@ -67,12 +66,11 @@ class Frm_AB_Lite_Form_Action extends FrmFormAction {
 		// Numeric fields
 		$numeric_fields = array(
 			'amount_fixed', 'li_cost_fixed', 'li_qty_fixed', 'li_tax_rate',
-			'recurring_duration', 'trial_days', 'installment_count',
 		);
 		// Boolean (checkbox) fields — present = true, absent = false
 		$bool_fields = array(
 			'capture', 'show_surcharge', 'show_card_details', 'save_card',
-			'li_enabled', 'recurring_enabled',
+			'li_enabled',
 			'three_ds_enabled', 'three_ds_frictionless',
 		);
 
@@ -99,11 +97,6 @@ class Frm_AB_Lite_Form_Action extends FrmFormAction {
 			$clean[ $key ] = isset( $options[ $key ] ) && intval( $options[ $key ] ) === 1 ? 1 : 0;
 		}
 
-		// Recurring start date
-		if ( isset( $options['recurring_start'] ) ) {
-			$clean['recurring_start'] = sanitize_text_field( $options['recurring_start'] );
-		}
-
 		return $clean;
 	}
 
@@ -124,13 +117,6 @@ class Frm_AB_Lite_Form_Action extends FrmFormAction {
 			'li_qty_type'      => 'fixed',
 			'li_qty_fixed'     => 1,
 			'li_cost_type'     => 'fixed',
-			'recurring_enabled'   => 0,
-			'recurring_frequency' => 'monthly',
-			'recurring_duration'  => 0,
-			'trial_period_type'   => 'none',  // 'none' | 'days'
-			'trial_days'          => 0,
-			'schedule_type'        => 'subscription', // 'subscription' | 'installment'
-			'installment_count'    => 3,
 		);
 	}
 

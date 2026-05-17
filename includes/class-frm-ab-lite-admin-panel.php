@@ -55,7 +55,7 @@ class Frm_AB_Lite_Admin_Panel {
 			<p style="margin:0;">
 				<strong><?php esc_html_e( 'Unlock the full power of accept.blue for Formidable Forms', 'ryanpay-accept-blue-formidable' ); ?></strong>
 				&mdash;
-				<?php esc_html_e( 'Upgrade to Pro for 3D Secure, force capture, recurring subscriptions, refunds, webhooks, fraud shield, and more.', 'ryanpay-accept-blue-formidable' ); ?>
+				<?php esc_html_e( 'Upgrade to Pro for recurring subscriptions, installment plans, refunds, voids, auth-only/capture, webhooks, fraud shield, admin transactions panel, and more.', 'ryanpay-accept-blue-formidable' ); ?>
 				&nbsp;
 				<a href="<?php echo esc_url( $pro_url ); ?>" target="_blank" rel="noopener" class="button button-primary" style="margin-left:6px;">
 					<?php esc_html_e( 'Upgrade to Pro →', 'ryanpay-accept-blue-formidable' ); ?>
@@ -167,7 +167,7 @@ class Frm_AB_Lite_Admin_Panel {
 			wp_add_inline_script( 'frm-acceptblue-lite-admin', 'var frmAbLicense = ' . wp_json_encode( $lic_data ) . ';' );
 			wp_add_inline_script( 'frm-acceptblue-lite-admin', self::license_js() );
 
-			// Form action / recurring toggle JS
+			// Form action JS (3DS toggle, iframe style toggle)
 			wp_add_inline_script( 'frm-acceptblue-lite-admin', self::form_action_js() );
 		}
 	}
@@ -231,76 +231,19 @@ private static function form_action_js(): string {
 		wrap.style.display = ( sel.value === 'custom' ) ? '' : 'none';
 	}
 
-	function applyScheduleType() {
-		var sel      = document.getElementById( 'frm_ab_lite_schedule_type' );
-		var rowInst  = document.getElementById( 'frm_ab_lite_row_installment_count' );
-		var rowSubD  = document.getElementById( 'frm_ab_lite_row_sub_duration' );
-		if ( ! sel ) return;
-		var isInstall = sel.value === 'installment';
-		if ( rowInst ) rowInst.style.display = isInstall ? '' : 'none';
-		if ( rowSubD ) rowSubD.style.display = isInstall ? 'none' : '';
-		// Sync disabled to prevent hidden inputs from failing HTML5 validation
-		var inputInst = document.getElementById( 'frm_ab_lite_installment_count' );
-		var inputSubD = document.getElementById( 'frm_ab_lite_recurring_duration' );
-		if ( inputInst ) inputInst.disabled = ! isInstall;
-		if ( inputSubD ) inputSubD.disabled = isInstall;
-	}
-
-	function applyTrialType() {
-		var sel          = document.getElementById( 'frm_ab_lite_trial_period_type' );
-		var rowTrialDays = document.getElementById( 'frm_ab_lite_trial_days_row' );
-		var inputDays    = document.getElementById( 'frm_ab_lite_trial_days' );
-		if ( ! sel || ! rowTrialDays ) return;
-		var isDays = sel.value === 'days';
-		rowTrialDays.style.display = isDays ? '' : 'none';
-		if ( inputDays ) inputDays.disabled = ! isDays;
-	}
-
-	function applyRecurring() {
-		var cb = document.getElementById( 'frm_ab_lite_rec_enabled' );
-		if ( ! cb ) return;
-		var on = cb.checked;
-		document.querySelectorAll( '.frm-ab-lite-rec-row' ).forEach( function( r ) {
-			r.style.display = on ? '' : 'none';
-		} );
-		if ( on ) {
-			applyScheduleType();
-			applyTrialType();
-		} else {
-			// Disable all number inputs inside rec-rows so hidden fields
-			// never fail HTML5 min/max validation on form submit
-			document.querySelectorAll( '.frm-ab-lite-rec-row input[type="number"]' ).forEach( function( inp ) {
-				inp.disabled = true;
-			} );
-		}
-	}
-
-	/* ─── event delegation on document ─────────────────────────────────────── *
-	 * Binds once at the document level — works no matter when Formidable        *
-	 * lazy-renders the action content. No inline onchange in PHP templates.    */
+	/* ─── event delegation on document ─────────────────────────────────────── */
 	document.addEventListener( 'change', function( e ) {
 		var id = e.target && e.target.id;
-		if ( id === 'frm_ab_lite_rec_enabled' ) {
-			applyRecurring();
-		} else if ( id === 'frm_ab_lite_schedule_type' ) {
-			applyScheduleType();
-		} else if ( id === 'frm_ab_lite_trial_period_type' ) {
-			applyTrialType();
-		} else if ( id === 'frm_ab_lite_three_ds_enabled' ) {
+		if ( id === 'frm_ab_lite_three_ds_enabled' ) {
 			applyThreeDs();
 		} else if ( id === 'frm_ab_lite_iframe_style_select' ) {
 			applyIframeStyle();
 		}
 	} );
 
-	/* ─── initial state ─────────────────────────────────────────────────────── *
-	 * Run applyRecurring() as soon as the checkbox appears in the DOM,          *
-	 * whether already present or lazy-rendered by Formidable later.            */
+	/* ─── initial state ─────────────────────────────────────────────────────── */
 	function maybeInit( root ) {
 		if ( ! root || ! root.querySelector ) return;
-		if ( root.querySelector( '#frm_ab_lite_rec_enabled' ) ) {
-			applyRecurring();
-		}
 		if ( root.querySelector( '#frm_ab_lite_three_ds_enabled' ) ) {
 			applyThreeDs();
 		}
@@ -315,9 +258,7 @@ private static function form_action_js(): string {
 		mutations.forEach( function( m ) {
 			m.addedNodes.forEach( function( node ) {
 				if ( node.nodeType !== 1 ) return;
-				if ( node.id === 'frm_ab_lite_rec_enabled' ) {
-					applyRecurring();
-				} else if ( node.id === 'frm_ab_lite_three_ds_enabled' ) {
+				if ( node.id === 'frm_ab_lite_three_ds_enabled' ) {
 					applyThreeDs();
 				} else if ( node.id === 'frm_ab_lite_iframe_style_select' ) {
 					applyIframeStyle();

@@ -48,8 +48,14 @@ class Frm_AB_Lite_Settings {
 
 	public static function route() {
 		// Formidable calls route() for both display AND after save.
-		// Only attempt to save when it's a POST request.
-		if ( isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' === sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) && isset( $_POST['frm_ab_lite_settings'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		// Only attempt to save when it's a POST request AND the nonce is valid.
+		if (
+			isset( $_SERVER['REQUEST_METHOD'] ) &&
+			'POST' === sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) &&
+			isset( $_POST['frm_ab_lite_settings'] ) &&
+			isset( $_POST['_wpnonce'] ) &&
+			wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'frm_save_options' )
+		) {
 			self::save_settings();
 		}
 		self::display_form();
@@ -258,15 +264,17 @@ class Frm_AB_Lite_Settings {
 	// -------------------------------------------------------------------------
 
 	public static function save_settings() {
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Formidable verifies nonce before calling this.
 		if ( ! isset( $_POST['frm_ab_lite_settings'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			return;
 		}
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
+		// Nonce is verified by the caller (route() checks wp_verify_nonce,
+		// frm_update_settings hook is fired only after Formidable's own
+		// check_admin_referer( 'frm_save_options' ) passes).
 
-		$raw = isset( $_POST['frm_ab_lite_settings'] ) ? wp_unslash( $_POST['frm_ab_lite_settings'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput,WordPress.Security.NonceVerification.Missing -- nonce verified by Formidable before this hook fires
+		$raw = isset( $_POST['frm_ab_lite_settings'] ) ? wp_unslash( $_POST['frm_ab_lite_settings'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Missing
 
 		$settings = array(
 			'api_key'          => sanitize_text_field( isset( $raw['api_key'] )          ? $raw['api_key']          : '' ),

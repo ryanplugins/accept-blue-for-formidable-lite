@@ -3,7 +3,7 @@
  * Plugin Name:     RyanPay Card Payments with accept.blue for Formidable
  * Plugin URI:      https://ryanplugins.net/
  * Description:     Accept.blue Hosted Tokenization payment gateway for Formidable Forms with debug logging. Upgrade to Pro for 3D Secure, force capture, recurring subscriptions, refunds, webhooks, fraud shield, and more.
- * Version:         1.0.0
+ * Version:         1.0.1
  * Author:          RyanPlugins
  * Author URI:      https://profiles.wordpress.org/ryanplugins/
  * Text Domain:     ryanpay-accept-blue-formidable
@@ -17,7 +17,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'FRM_AB_LITE_VERSION', '1.0.0' );
+define( 'FRM_AB_LITE_VERSION', '1.0.1' );
 define( 'FRM_AB_LITE_FILE',    __FILE__ );
 define( 'FRM_AB_LITE_PATH',    plugin_dir_path( __FILE__ ) );
 define( 'FRM_AB_LITE_URL',     plugin_dir_url( __FILE__ ) );

@@ -4,11 +4,11 @@ Tags: formidable, payment, accept.blue, gateway, credit card
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Accept credit card payments through accept.blue directly inside your Formidable Forms. Free Lite version — upgrade to Pro for recurring billing.
+Accept credit card payments through accept.blue directly inside your Formidable Forms. Free Lite version — upgrade to Pro for recurring billing, refunds, fraud shield, and more.
 
 == Description ==
 
@@ -22,6 +22,8 @@ This is the **free Lite version**. Upgrade to Pro to unlock additional features.
 * **Test / Sandbox mode** — safely test payments with accept.blue sandbox credentials before going live
 * **Test Connection** — verify your API credentials without leaving WordPress
 * **Debug logging** — dedicated per-month log file with an in-admin log viewer, gated behind a settings toggle
+* **3D Secure 2 (3DS2)** — optional EMV 3DS2 browser-based authentication per Form Action
+* **Per-form API credential override** — run different forms against different accept.blue merchant accounts
 * **Processing overlay** — animated spinner shown on form submit while payment processes
 * **Minified assets** — production-ready JS and CSS; source files served automatically when WP_DEBUG is on
 
@@ -31,14 +33,12 @@ Upgrade to **Secure Form Checkout Pro by Ryan** to unlock:
 
 * Recurring subscriptions — daily, weekly, bi-weekly, monthly, bi-monthly, quarterly, bi-annually, and annually
 * Installment plans — split a total into a fixed number of automatic charges
-* 3-D Secure 2 (3DS2) — optional EMV 3DS2 browser-based authentication per Form Action
 * Auth-only / Capture — authorise a card without charging; capture manually from the admin panel
 * Adjust & Capture — change the amount before capturing an authorisation
 * Refunds & Voids — full and partial refunds, voids of unsettled authorisations, all from the admin
 * Admin Transactions Panel — filterable list of all payments with 30-day revenue stats and CSV export
 * Webhook receiver — HMAC-SHA256 signed REST endpoint keeps payment statuses up to date in real time
 * Fraud Shield — IP velocity, email velocity, country block-list, and per-transaction amount threshold
-* Per-form API credential override — run different forms against different accept.blue merchant accounts
 * Guest subscription cancellation — signed token system lets non-logged-in customers cancel their own subscriptions
 * Revenue dashboard — at-a-glance stats and transaction history per Formidable entry
 
@@ -54,8 +54,8 @@ Upgrade to **Secure Form Checkout Pro by Ryan** to unlock:
 This plugin transmits payment data to accept.blue, a third-party payment processor. Card data is captured inside an accept.blue Hosted Tokenization iFrame and never passes through your server.
 
 * accept.blue website: https://accept.blue
-* accept.blue Terms of Service: https://accept.blue/terms-of-service
-* accept.blue Privacy Policy: https://accept.blue/privacy-policy
+* accept.blue Terms of Service: https://accept.blue/legal/terms-of-service
+* accept.blue Privacy Policy: https://accept.blue/legal/privacy-policy
 
 No card data is stored on your server. All sensitive payment data is handled exclusively by accept.blue's PCI-compliant infrastructure.
 
@@ -95,7 +95,7 @@ No. Deactivate Lite before activating Pro. All PHP classes, functions, constants
 
 = How is Lite different from Pro? =
 
-Lite handles one-time credit card payments and debug logging. Pro adds recurring billing, installment plans, 3DS2, auth-only/capture, refunds, voids, an admin transactions panel, webhooks, fraud protection, per-form API overrides, and a revenue dashboard.
+Lite handles one-time credit card payments, 3DS2 authentication, per-form API credential overrides, and debug logging. Pro adds recurring billing, installment plans, auth-only/capture, refunds, voids, an admin transactions panel, webhooks, fraud protection, and a revenue dashboard.
 
 = Where do I upgrade to Pro? =
 
@@ -117,15 +117,24 @@ No card data is stored on your server. All sensitive payment data is handled exc
 2. Sandbox/test mode enabled in the Accept.Blue settings.
 3. Transaction debug log viewer showing request and response entries.
 4. Formidable form with the Accept.Blue card field at checkout.
-5. Recurring payment settings panel on the Accept.Blue form action.
 
 == Changelog ==
+
+= 1.0.1 =
+* Fixed: Added nonce verification to settings save path in route() to prevent CSRF
+* Fixed: Removed recurring, installment, and trial fields from prepare()/get_defaults() — recurring is not implemented in Lite and was dead code
+* Fixed: Updated accept.blue Terms of Service and Privacy Policy URLs to correct paths (/legal/...)
+* Fixed: Updated admin upsell notice and readme to accurately reflect which features are in Lite vs Pro
+* Fixed: 3DS and per-form API credential override are fully functional in Lite — moved from Pro-only list to Lite feature list
+* Fixed: Removed recurring-related JavaScript toggle code from admin panel (no recurring UI in Lite)
+* Fixed: Removed screenshot reference to recurring payment settings panel (no such UI in Lite)
 
 = 1.0.0 =
 * Initial Lite release based on Pro v1.0.0
 * Core credit card payments via accept.blue Hosted Tokenization iFrame (PCI-minimised)
 * Debug logging with in-admin log viewer and Clear Log function
-* Pro features visible in UI with upgrade prompts (recurring, refunds, admin panel, webhooks, fraud shield, dashboard)
+* 3D Secure 2 (3DS2) browser-based authentication per Form Action
+* Per-form API credential override for multi-merchant support
 * Licensing system fully removed
 * All PHP identifiers prefixed with _lite (classes, functions, constants, options, hooks, DB tables)
 * Plugin entry file renamed to formidable-acceptblue-lite.php
