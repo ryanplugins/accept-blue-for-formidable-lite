@@ -279,7 +279,6 @@ class Frm_AB_Lite_Settings {
 		$settings = array(
 			'api_key'          => sanitize_text_field( isset( $raw['api_key'] )          ? $raw['api_key']          : '' ),
 			'pin'              => sanitize_text_field( isset( $raw['pin'] )              ? $raw['pin']              : '' ),
-			'paay_api_key'     => sanitize_text_field( isset( $raw['paay_api_key'] )     ? $raw['paay_api_key']     : '' ),
 			'tokenization_key' => sanitize_text_field( isset( $raw['tokenization_key'] ) ? $raw['tokenization_key'] : '' ),
 			'test_mode'        => ! empty( $raw['test_mode'] ) ? 1 : 0,
 			'debug_log'        => ! empty( $raw['debug_log'] ) ? 1 : 0,
@@ -299,7 +298,6 @@ class Frm_AB_Lite_Settings {
 		$defaults = array(
 			'api_key'          => '',
 			'pin'              => '',
-			'paay_api_key'     => '',
 			'tokenization_key' => '',
 			'test_mode'        => 1,
 			'debug_log'        => 0,

@@ -1082,21 +1082,15 @@ function frm_ab_lite_process_payment( $action, $entry, $form, $event ) {
 				Frm_AB_Lite_Logger::info( '[3DS] Standard mode — challenge allowed if issuer requires it.' );
 			}
 
-			// Paay API key is passed in the JS constructor (threeDS.apiKey option),
-			// not in the charge payload. The verify3DS result (ECI/CAVV) is what
-			// gets attached to the charge — that arrives via frm_ab_lite_three_ds_result.
-			$global_settings = Frm_AB_Lite_Settings::get_settings();
-			$paay_api_key    = trim( $global_settings['paay_api_key'] ?? '' );
-			Frm_AB_Lite_Logger::info( '[3DS] Browser info payload built', [
-				'paay_configured' => $paay_api_key ? 'yes' : 'no (native 3DS only)',
-			] );
+			// Paay (verify3DS) is a Pro feature. In Lite, native browser-based 3DS is used.
+			// The verify3DS result (ECI/CAVV) arrives via frm_ab_lite_three_ds_result if configured externally.
+			Frm_AB_Lite_Logger::info( '[3DS] Browser info payload built (native 3DS only)' );
 
 			$charge_args['three_ds'] = $three_ds_payload;
 			Frm_AB_Lite_Logger::info( '[3DS] Browser data attached to charge', [
 				'screen'   => ( $three_ds['screen_width']  ?? '?' ) . 'x' . ( $three_ds['screen_height'] ?? '?' ),
 				'language' => $three_ds['language']         ?? '?',
 				'tz'       => $three_ds['timezone_offset']  ?? '?',
-				'paay'     => $paay_api_key ? 'yes' : 'no',
 			] );
 		}
 	}
