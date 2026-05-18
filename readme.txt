@@ -40,8 +40,7 @@ This is the **free Lite version**.
 This plugin transmits payment data to accept.blue, a third-party payment processor. Card data is captured inside an accept.blue Hosted Tokenization iFrame and never passes through your server.
 
 * accept.blue website: https://accept.blue
-* accept.blue Terms of Service: https://accept.blue/legal/terms-of-service
-* accept.blue Privacy Policy: https://accept.blue/legal/privacy-policy
+
 
 No card data is stored on your server. All sensitive payment data is handled exclusively by accept.blue's PCI-compliant infrastructure.
 
