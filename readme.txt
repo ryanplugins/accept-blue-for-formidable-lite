@@ -75,14 +75,6 @@ No. Card data is tokenised entirely within the accept.blue Hosted Tokenization i
 
 Yes. Enable Test / Sandbox Mode in Formidable > Global Settings > Accept.Blue and use your accept.blue sandbox credentials. No real charges are made. Disable the setting and switch to live credentials when you are ready for production.
 
-= Can Lite run alongside the Pro version? =
-
-No. Deactivate Lite before activating Pro. All PHP classes, functions, constants, database tables, and option keys are namespaced with _lite so there are no code-level conflicts, but running both simultaneously is unsupported.
-
-= How is Lite different from Pro? =
-
-Lite handles one-time credit card payments, 3DS2 authentication, per-form API credential overrides, and debug logging. Pro adds recurring billing, installment plans, auth-only/capture, refunds, voids, an admin transactions panel, webhooks, fraud protection, and a revenue dashboard.
-
 = What statuses does the plugin use? =
 
 complete — charge captured and settled; auth — authorised but not yet captured; failed — charge declined or errored; voided — authorisation cancelled before capture; refunded — charge refunded in full or in part.
@@ -93,13 +85,6 @@ API request and response bodies are logged when debug logging is enabled. Card n
 
 No card data is stored on your server. All sensitive payment data is handled exclusively by accept.blue's PCI-compliant infrastructure.
 
-
-== Screenshots ==
-
-1. Plugin settings page showing API credentials, test/sandbox mode, and debug logging options.
-2. Sandbox/test mode enabled in the Accept.Blue settings.
-3. Transaction debug log viewer showing request and response entries.
-4. Formidable form with the Accept.Blue card field at checkout.
 
 == Changelog ==
 
